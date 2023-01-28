@@ -30,7 +30,7 @@
 <ol>
     <li>Install python 3 </li>
     <li>Install pip </li>
-    <li>Modify the "<strong>access_token</strong>" and "<strong>urn</strong>" variables, found in the "<strong>libs/post_on_linkedin.py</strong>" file</li>
+    <li>Modify the "<strong>access_token</strong>" and "<strong>urn</strong>" variables, found in the "<strong>.env</strong>" file</li>
     <li>Enter the following command
     <span></span>
 
@@ -99,7 +99,7 @@ and "urn" elements entered are the correct ones.
 <ol>
     <li>Installez python 3 </li>
     <li>Installez pip </li>
-    <li>Modifiez les variables "<strong>access_token</strong>" et "<strong>urn</strong>" présentes dans le fichier "<strong>libs/post_on_linkedin.py</strong>"</li>
+    <li>Modifiez les variables "<strong>access_token</strong>" et "<strong>urn</strong>" présentes dans le fichier "<strong>.env</strong>"</li>
     <li>Entrez la commande suivante
     <span></span>
 
