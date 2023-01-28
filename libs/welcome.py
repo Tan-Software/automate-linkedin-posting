@@ -1,35 +1,39 @@
 import sys
-sys.tracebacklimit=0
+import termcolor
+
+sys.tracebacklimit = 0
 
 def prompt_questions():
-    print("\033[1;34;40m Veuillez entrer le numéro correspondant : ")
+    termcolor.cprint("Veuillez entrer le numéro correspondant :", 'green')
 
-    datas_prompt = {
+    data_prompt = {
         1: 'Programmer un nouveau post sur LinkedIn.',
         2: 'Lancer en tâche de fond les posts programmés.',
         3: 'Lancer un test de connexion.'
     }
     
-    for i in datas_prompt:
-        print("- " + str(i) + " : " + datas_prompt[i])
+    for i in data_prompt:
+        print(f"- {i} : {data_prompt[i]}")
 
-    answer = input("\nVotre choix : ")
+    while True:
+        try:
+            answer = int(input("\nVotre choix : "))
+            if 1 <= answer <= len(data_prompt):
+                return answer
+            else:
+                raise ValueError
+        except ValueError:
+            termcolor.cprint("Le chiffre doit être compris entre 1 et", 'red', end='')
+            termcolor.cprint(f" {len(data_prompt)}", 'red')
 
-    while not answer.isdigit():
-        print("\n\033[1;31;40m -------------------------------------------------------")
-        print("\n\033[1;31;40m Le chiffre doit être compris entre 1 et " + str(len(datas_prompt.keys())) + ".")
-        print("\n\033[1;31;40m -------------------------------------------------------\n")
-        return questions()
-
-    return answer
 
 def presentation():
-    print("\033[1;33;40m ************************************")
-    print("\033[1;33;40m www.tansoftware.com")
-    print(" automate linkedin posting")
-    print(" version 0.0.1")
-    print("\033[1;33;40m ************************************\n")
+    border = "*" * 40
+    print(termcolor.colored(border, 'blue'))
+    print(termcolor.colored("www.tansoftware.com", 'blue'))
+    print(termcolor.colored("automate linkedin posting", 'blue'))
+    print(termcolor.colored("version 0.0.1", 'blue'))
+    print(termcolor.colored(border, 'blue'))
 
 def questions():
     return prompt_questions()
-    

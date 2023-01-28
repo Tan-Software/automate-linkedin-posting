@@ -2,36 +2,31 @@ import requests
 import os
 import glob
 import re
+import docx
+
 from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from datetimerange import DateTimeRange
-import docx
-
-api_url_base = 'https://api.linkedin.com/v2/'
-
-access_token = "VOTRE TOKEN"
-urn = "VOTRE URN"
-author = f"urn:li:person:{urn}"
-
 from os.path import join, dirname
 from dotenv import load_dotenv
+from termcolor import colored
 
-# Create .env file path
-dotenv_path = join(dirname(__file__), '.env')
+DOTENV_PATH = join(dirname(__file__), '.env')
+load_dotenv(DOTENV_PATH)
 
-# load file from the path
-load_dotenv(dotenv_path)
-
-headers = {'X-Restli-Protocol-Version': '2.0.0',
-           'Content-Type': 'application/json',
-           'Authorization': f'Bearer {access_token}'}
-
+API_URL_BASE = 'https://api.linkedin.com/v2/'
+AUTHOR = f"urn:li:person:{os.getenv('URN')}"
+HEADERS = {
+    'X-Restli-Protocol-Version': '2.0.0',
+    'Content-Type': 'application/json',
+    'Authorization': f'Bearer {os.getenv("ACCESS_TOKEN")}'
+}
 
 def send_to_linkedin_api(current_document_text):
-    api_url = f'{api_url_base}ugcPosts'
+    api_url = f'{API_URL_BASE}ugcPosts'
 
     post_data = {
-        "author": author,
+        "author": AUTHOR,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
@@ -46,7 +41,7 @@ def send_to_linkedin_api(current_document_text):
         },
     }
 
-    response = requests.post(api_url, headers=headers, json=post_data)
+    response = requests.post(api_url, headers=HEADERS, json=post_data)
 
     if response.status_code == 201:
         print(" Le post a été envoyé sur LinkedIn.")
@@ -54,12 +49,6 @@ def send_to_linkedin_api(current_document_text):
     else:
         print("\033[1;31;40m Erreur : ")
         print(response.content)
-
-def time_in_range(start, end, x):
-    if start <= end:
-        return start <= x <= end
-    else:
-        return start <= x or x <= end
 
 def get_document(filename):
     doc = docx.Document(filename)
@@ -95,15 +84,14 @@ def check_documents_every_hour():
             send_to_linkedin_api(current_document_text)
 
 def send_test():
-    print("\n\033[1;33;40m Un document dans ./scheduled_posts,")
-    print("\033[1;33;40m A la date et l'heure d'aujourd'hui, doit être présent,")
-    print("\033[1;33;40m Pour ce test.\n")
+    print(colored("\n Un document dans ./scheduled_posts,", "red"))
+    print(colored(" A la date et l'heure d'aujourd'hui, doit être présent pour ce test.", "yellow"))
 
     check_documents_every_hour()
 
 def init():
-    print("\033[1;33;40m Automatisation lancée ...")
-    print("\033[1;33;40m Ne fermez pas ce terminal.")
+    print(colored(" Automatisation lancée ...", "yellow"))
+    print(colored(" Ne fermez pas ce terminal.", "yellow"))
 
     scheduler = BlockingScheduler()
     scheduler.add_job(check_documents_every_hour, 'interval', hours=1)
