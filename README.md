@@ -138,7 +138,7 @@ Et qu'ils les envoient sur votre compte LinkedIn, sous forme de post.
 
 ```bash
 3 - De lancer un test de connexion afin de vérifier que les éléments 
-renseignés "access_token" et "urn", soient les bons.
+renseignés "access_token" et "urn", sont les bons.
 ```
 </ul>
 
