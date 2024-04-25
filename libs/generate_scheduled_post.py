@@ -6,8 +6,6 @@ from docx.shared import Inches
 from pathlib import Path
 
 def generate_initial_docx(input_date, input_hour):
-    from termcolor import colored
-
     document = Document()
 
     document.add_heading('Post généré automatiquement par Tansoftware', 0)
